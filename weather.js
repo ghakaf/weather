@@ -10,7 +10,7 @@ function getWeather(searchQuery) {
   $(".weather-main").text("");
   $(".temp").text(""); 
 
-  var url = "https://api.openweathermap.org/data/2.5/weather?q="+searchQuery+"&units=metric&APPID=f6acca7e7573d55ea30edb9aa6fc28af";
+  var url = "https://api.openweathermap.org/data/2.5/weather?q="+searchQuery+"&units=metric&APPID=please get your own key for free from openweathermap.org and insert it here";
 
 
     $.ajax(url, {
