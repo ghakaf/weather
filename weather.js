@@ -1,10 +1,6 @@
-// This function first resets the text fields to have no content.
-// Then, it creates the URL to send to OpenWeatherMap, including the content from the page's 
-//    search field.
-// Then, it performs an AJAX call to that URL.
-// If it's successful, the function takes the JSON data that was returned, and pulls the name 
-//    and temperature out of the object, then uses jQuery to display them on the page.
-// If there is an error, it shows an error message instead.
+<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+<script src="owmApiKey.js" type="text/javascript"></script>	
+
 function getWeather(searchQuery) {
   $(".error-message").text("");
   $(".city-name").text("");
@@ -14,7 +10,7 @@ function getWeather(searchQuery) {
   $(".temp").text(""); 
   
 
-	 var url = "https://api.openweathermap.org/data/2.5/weather?q="+searchQuery+"&units=metric&APPID=f6acca7e7573d55ea30edb9aa6fc28af";
+	 var url = "https://api.openweathermap.org/data/2.5/weather?q="+searchQuery+"&units=metric&APPID="+myApiKey;
 
     $.ajax(url, {
 
