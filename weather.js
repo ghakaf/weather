@@ -18,14 +18,17 @@ function getWeather(searchQuery) {
 
 		
         $( ".city-name" ).text("City: " + result.name);
+	      
+	$(".country").text("Country: " + result.sys.country);
 		        
-        $(".description").text("Description: " + (result.weather && result.weather[0] && result.weather[0].description));
+	$(".weather-main").text("Main forecast: " + (result.weather && result.weather[0] && result.weather[0].main));
 
-        $(".weather-main").text("Main forecast: " + (result.weather && result.weather[0] && result.weather[0].main));
-		
-		$(".wind-speed").text("Wind speed: " + result.wind.speed);
-		$(".temp").text("Temp: " + result.main.temp + " C");
-		$(".country").text("Country: " + result.sys.country);
+	$(".description").text("Description: " + (result.weather && result.weather[0] && result.weather[0].description));
+
+	$(".wind-speed").text("Wind speed: " + result.wind.speed);
+	      
+	$(".temp").text("Temp: " + result.main.temp + " C");
+
 		
       },
       error: function(result) {
