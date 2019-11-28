@@ -1,3 +1,3 @@
 # weather
 
-This is a simple JS code to get the current weather information for the city of London, UK.
+This is a simple JS code to get the current weather information for any city from openweathermap.org
