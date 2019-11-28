@@ -1,32 +1,35 @@
 <!DOCTYPE html>
 <html>
   <head>
+  
     <link href="https://fonts.googleapis.com/css?family=Candal" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+	<link rel="stylesheet" href="styles.css">
+
     <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
     <script src="weather.js" type="text/javascript"></script>
+	
   </head>
   <body>
     <div class='center'>
       <h1>
-        The Weather Forecast
+        The Current Weather Forecast
       </h1>
-      <button id='weather_button' class='basic_button'>
-        Current Weather
-      </button>
       <div class='error'>
       </div>
-
       <div class='weather'>
+	    <input class="search form-control" type="text" placeholder="Enter city...">
+        <button class="btn btn-dark" onclick="searchWeather()">Search</button>
 		<div class='city-name text'>
         </div>
-        <div class='weather-main text'>
+		<div class='country text'>
+        </div>
+		<div class='weather-main text'>
         </div>
         <div class='description text'>
         </div>
         <div class='wind-speed text'>
         </div>
-        <div class='wind-deg text'>
+        <div class='temp text'>
         </div>
       </div>
     </div>

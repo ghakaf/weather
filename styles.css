@@ -14,13 +14,3 @@ h1 {
   margin-top: 30px;
   font-family: 'Candal', sans-serif;
 }
-
-.basic_button {
-  font-family: 'Candal', sans-serif;
-  font-size: 18;
-  margin-top: 30px;
-  width: 250px;
-  height: 45px;
-  border-radius: 4px;
-  background-color: #4CAF50
-}
