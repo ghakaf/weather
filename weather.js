@@ -1,10 +1,6 @@
-// This function first resets the text fields to have no content.
-// Then, it creates the URL to send to OpenWeatherMap, including the content from the page's 
-//    search field.
-// Then, it performs an AJAX call to that URL.
-// If it's successful, the function takes the JSON data that was returned, and pulls the name 
-//    and temperature out of the object, then uses jQuery to display them on the page.
-// If there is an error, it shows an error message instead.
+// This function gets a text input and passes it to form the URL needed to get the entered city weather 
+// from the openweathermap.org api and then displaying the results
+
 function getWeather(searchQuery) {
   $(".error-message").text("");
   $(".city-name").text("");
@@ -40,6 +36,6 @@ function getWeather(searchQuery) {
   }
   
 function searchWeather() {
-  var searchQuery = $('.search').val(); // grab value from search input
+  var searchQuery = $('.search').val();
   getWeather(searchQuery);
 }
