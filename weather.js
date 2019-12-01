@@ -12,7 +12,6 @@ function getWeather(searchQuery) {
 
   var url = "https://api.openweathermap.org/data/2.5/weather?q="+searchQuery+"&units=metric&APPID=f6acca7e7573d55ea30edb9aa6fc28af";
 
-
     $.ajax(url, {
 
       success: function(result) {
