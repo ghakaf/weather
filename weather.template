@@ -1,0 +1,397 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Resources": {
+    "vpcb7e951cd": {
+      "Type": "AWS::EC2::VPC",
+      "Properties": {
+        "CidrBlock": "172.31.0.0/16",
+        "InstanceTenancy": "default",
+        "EnableDnsSupport": "true",
+        "EnableDnsHostnames": "true"
+      }
+    },
+    "subnetd949f9e7": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "172.31.48.0/20",
+        "AvailabilityZone": "us-east-1e",
+        "VpcId": {
+          "Ref": "vpcb7e951cd"
+        }
+      }
+    },
+    "subnet41731f26": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "172.31.0.0/20",
+        "AvailabilityZone": "us-east-1b",
+        "VpcId": {
+          "Ref": "vpcb7e951cd"
+        }
+      }
+    },
+    "subnet98f9c5d2": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "172.31.16.0/20",
+        "AvailabilityZone": "us-east-1d",
+        "VpcId": {
+          "Ref": "vpcb7e951cd"
+        }
+      }
+    },
+    "subnet59103656": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "172.31.64.0/20",
+        "AvailabilityZone": "us-east-1f",
+        "VpcId": {
+          "Ref": "vpcb7e951cd"
+        }
+      }
+    },
+    "subnet7a553c26": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "172.31.32.0/20",
+        "AvailabilityZone": "us-east-1a",
+        "VpcId": {
+          "Ref": "vpcb7e951cd"
+        }
+      }
+    },
+    "subnetf4a8c3da": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "172.31.80.0/20",
+        "AvailabilityZone": "us-east-1c",
+        "VpcId": {
+          "Ref": "vpcb7e951cd"
+        }
+      }
+    },
+    "igw8b48a4f0": {
+      "Type": "AWS::EC2::InternetGateway",
+      "Properties": {
+      }
+    },
+    "dopt10e0ba6b": {
+      "Type": "AWS::EC2::DHCPOptions",
+      "Properties": {
+        "DomainName": "ec2.internal",
+        "DomainNameServers": [
+          "AmazonProvidedDNS"
+        ]
+      }
+    },
+    "acle7b1529a": {
+      "Type": "AWS::EC2::NetworkAcl",
+      "Properties": {
+        "VpcId": {
+          "Ref": "vpcb7e951cd"
+        }
+      }
+    },
+    "rtb334a4d4c": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "vpcb7e951cd"
+        }
+      }
+    },
+    "distd1tllbofijzaw5cloudfrontnet": {
+      "Type": "AWS::CloudFront::Distribution",
+      "Properties": {
+        "DistributionConfig": {
+          "Enabled": true,
+          "DefaultRootObject": "index.html",
+          "PriceClass": "PriceClass_All",
+          "DefaultCacheBehavior": {
+            "TargetOriginId": "S3-gkweather",
+            "ViewerProtocolPolicy": "allow-all",
+            "MinTTL": 0,
+            "AllowedMethods": [
+              "HEAD",
+              "GET"
+            ],
+            "CachedMethods": [
+              "HEAD",
+              "GET"
+            ],
+            "ForwardedValues": {
+              "Cookies": {
+                "Forward": "none"
+              }
+            }
+          },
+          "Origins": [
+            {
+              "DomainName": "gkweather.s3.amazonaws.com",
+              "Id": "S3-gkweather",
+              "S3OriginConfig": {
+                "OriginAccessIdentity": "origin-access-identity/cloudfront/E16DHRBSD204CQ"
+              }
+            }
+          ],
+          "Restrictions": {
+            "GeoRestriction": {
+              "RestrictionType": "none",
+              "Locations": [
+
+              ]
+            }
+          },
+          "ViewerCertificate": {
+            "CloudFrontDefaultCertificate": "true",
+            "MinimumProtocolVersion": "TLSv1"
+          }
+        }
+      }
+    },
+    "s3codepipelineuseast1877555636899": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "AccessControl": "Private",
+        "VersioningConfiguration": {
+          "Status": "Suspended"
+        }
+      }
+    },
+    "s3gkweather": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "WebsiteConfiguration": {
+          "IndexDocument": "index.html"
+        },
+        "AccessControl": "Private",
+        "VersioningConfiguration": {
+          "Status": "Enabled"
+        },
+        "Tags": [
+          {
+            "Key": "departement",
+            "Value": "finance"
+          }
+        ]
+      }
+    },
+    "s3policycodepipelineuseast1877555636899": {
+      "Type": "AWS::S3::BucketPolicy",
+      "Properties": {
+        "Bucket": {
+          "Ref": "s3codepipelineuseast1877555636899"
+        },
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Id": "SSEAndSSLPolicy",
+          "Statement": [
+            {
+              "Sid": "DenyUnEncryptedObjectUploads",
+              "Effect": "Deny",
+              "Principal": "*",
+              "Action": "s3:PutObject",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:aws:s3:::",
+                    "codepipeline-us-east-",
+                    "1-877555636899/*"
+                  ]
+                ]
+              },
+              "Condition": {
+                "StringNotEquals": {
+                  "s3:x-amz-server-side-encryption": "aws:kms"
+                }
+              }
+            },
+            {
+              "Sid": "DenyInsecureConnections",
+              "Effect": "Deny",
+              "Principal": "*",
+              "Action": "s3:*",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:aws:s3:::",
+                    "codepipeline-us-east-",
+                    "1-877555636899/*"
+                  ]
+                ]
+              },
+              "Condition": {
+                "Bool": {
+                  "aws:SecureTransport": "false"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "s3policygkweather": {
+      "Type": "AWS::S3::BucketPolicy",
+      "Properties": {
+        "Bucket": {
+          "Ref": "s3gkweather"
+        },
+        "PolicyDocument": {
+          "Version": "2008-10-17",
+          "Id": "PolicyForCloudFrontPrivateContent",
+          "Statement": [
+            {
+              "Sid": "1",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": "arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity E16DHRBSD204CQ"
+              },
+              "Action": "s3:GetObject",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:aws:s3:::",
+                    {
+                      "Ref": "s3gkweather"
+                    },
+                    "/*"
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    "acl3": {
+      "Type": "AWS::EC2::NetworkAclEntry",
+      "Properties": {
+        "CidrBlock": "0.0.0.0/0",
+        "Egress": "true",
+        "Protocol": "-1",
+        "RuleAction": "allow",
+        "RuleNumber": "100",
+        "NetworkAclId": {
+          "Ref": "acle7b1529a"
+        }
+      }
+    },
+    "acl4": {
+      "Type": "AWS::EC2::NetworkAclEntry",
+      "Properties": {
+        "CidrBlock": "0.0.0.0/0",
+        "Protocol": "-1",
+        "RuleAction": "allow",
+        "RuleNumber": "100",
+        "NetworkAclId": {
+          "Ref": "acle7b1529a"
+        }
+      }
+    },
+    "subnetacl7": {
+      "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+      "Properties": {
+        "NetworkAclId": {
+          "Ref": "acle7b1529a"
+        },
+        "SubnetId": {
+          "Ref": "subnet7a553c26"
+        }
+      }
+    },
+    "subnetacl8": {
+      "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+      "Properties": {
+        "NetworkAclId": {
+          "Ref": "acle7b1529a"
+        },
+        "SubnetId": {
+          "Ref": "subnet98f9c5d2"
+        }
+      }
+    },
+    "subnetacl9": {
+      "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+      "Properties": {
+        "NetworkAclId": {
+          "Ref": "acle7b1529a"
+        },
+        "SubnetId": {
+          "Ref": "subnet59103656"
+        }
+      }
+    },
+    "subnetacl10": {
+      "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+      "Properties": {
+        "NetworkAclId": {
+          "Ref": "acle7b1529a"
+        },
+        "SubnetId": {
+          "Ref": "subnet41731f26"
+        }
+      }
+    },
+    "subnetacl11": {
+      "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+      "Properties": {
+        "NetworkAclId": {
+          "Ref": "acle7b1529a"
+        },
+        "SubnetId": {
+          "Ref": "subnetd949f9e7"
+        }
+      }
+    },
+    "subnetacl12": {
+      "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+      "Properties": {
+        "NetworkAclId": {
+          "Ref": "acle7b1529a"
+        },
+        "SubnetId": {
+          "Ref": "subnetf4a8c3da"
+        }
+      }
+    },
+    "gw2": {
+      "Type": "AWS::EC2::VPCGatewayAttachment",
+      "Properties": {
+        "VpcId": {
+          "Ref": "vpcb7e951cd"
+        },
+        "InternetGatewayId": {
+          "Ref": "igw8b48a4f0"
+        }
+      }
+    },
+    "route2": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "RouteTableId": {
+          "Ref": "rtb334a4d4c"
+        },
+        "GatewayId": {
+          "Ref": "igw8b48a4f0"
+        }
+      },
+      "DependsOn": "gw2"
+    },
+    "dchpassoc2": {
+      "Type": "AWS::EC2::VPCDHCPOptionsAssociation",
+      "Properties": {
+        "VpcId": {
+          "Ref": "vpcb7e951cd"
+        },
+        "DhcpOptionsId": {
+          "Ref": "dopt10e0ba6b"
+        }
+      }
+    }
+  },
+  "Description": ""
+}
